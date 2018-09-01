@@ -21,12 +21,12 @@ conjugate gradient framework for the policy optimization.
 Refer to requirements.txt for more details.
 
 ### Running Command
-*After launching the virtual env, set up PYTHONPATH and Mujoco PATH,
+* After launching the virtual env, set up PYTHONPATH and Mujoco PATH,
 ```
 source start.sh
 ```
 
-*Run experiment
+* Run experiment
 ```
 cd sandbox/rocky/tf/launchers/
 python trpo_gym_swimmer.py
