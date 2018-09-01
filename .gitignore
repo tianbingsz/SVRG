@@ -4,6 +4,7 @@ data
 .DS_Store
 *.h5
 *.log
+*.json
 *.npz
 secrets.py
 *.avi
