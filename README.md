@@ -3,12 +3,8 @@
   (UT, Austin), Jian Peng (UIUC), Liang Zhao (Baidu Research, CA), Andrew Zhang
 (Stanford University)
 
-### Major Contributions: 
-* We introduce the stochastic variance reduced gradient descent (SVRG) to 
-model-free policy gradient to improve the sample-efficiency.
-* The SVRG estimation is incorporated into a trust-region Newton 
-conjugate gradient framework for the policy optimization.
-* SVRG is developped based on the rllab (https://github.com/rll/rllab)
+### Contributions: 
+The variance of the policy gradient estimates obtained from the simulation is often excessive, leading to poor sample efficiency. In this paper, we apply the stochastic variance reduced gradient descent (SVRG) to model-free policy gradient to improve the sample-efficiency. The SVRG estimation is incorporated into a trust-region Newton conjugate gradient framework for the policy optimization.
 
 ## Dependencies
 * Rllab (https://github.com/rll/rllab)
