@@ -28,8 +28,11 @@ cd sandbox/rocky/tf/launchers/
 python trpo_gym_swimmer.py
 ```
 
-## Results (TODO, figures and video)
-
+## Results (MuJoco Robotics Tasks)
+![hopper_svrg](https://user-images.githubusercontent.com/22249000/44967751-45bdf700-aef8-11e8-8280-252ef345ade7.jpg)
+[![Half-Cheetah](https://img.youtube.com/vi/YheWgjt9eww/0.jpg)](https://www.youtube.com/watch?v=YheWgjt9eww)
+[![Hopper](https://img.youtube.com/vi/9Eu8mmEskwQ/0.jpg)](https://www.youtube.com/watch?v=9Eu8mmEskwQ)
+ 
 ## Reference
 * Tianbing Xu, Qiang Liu, Jian Peng, "Stochastic Variance Reduction 
 for Policy Gradient Estimation", arXiv, 2017
