@@ -73,7 +73,6 @@ class SVRGPG(BatchPolopt, Serializable):
                                 for k in self.policy.state_info_keys]
 
         dist_info_vars = self.policy.dist_info_sym(obs_var, state_info_vars)
-        # todo, delete this var
         state_info_vars_tilde = {
             k: tf.placeholder(tf.float32, shape=[None] + list(shape), name=k)
             for k, shape in self.policy_tilde.state_info_specs
