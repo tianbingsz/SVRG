@@ -7,7 +7,6 @@ from sandbox.rocky.tf.optimizers.svrg import SVRGOptimizer
 from sandbox.rocky.tf.misc import tensor_utils
 from rllab.core.serializable import Serializable
 import tensorflow as tf
-import numpy as np
 
 
 class SVRGPG(BatchPolopt, Serializable):
