@@ -7,7 +7,6 @@ from sandbox.rocky.tf.optimizers.robust_opt import RobustOptimizer
 from sandbox.rocky.tf.misc import tensor_utils
 from rllab.core.serializable import Serializable
 import tensorflow as tf
-import numpy as np
 
 
 class RobustPG(BatchPolopt, Serializable):
@@ -71,13 +70,11 @@ class RobustPG(BatchPolopt, Serializable):
                                 for k in self.policy.state_info_keys]
 
         dist_info_vars = self.policy.dist_info_sym(obs_var, state_info_vars)
-        # todo, delete this var
-        loglik = dist.log_likelihood_sym(action_var, dist_info_vars)
         kl = dist.kl_sym(old_dist_info_vars, dist_info_vars)
 
         # formulate as a minimization problem
         # The gradient of the surrogate objective is the policy gradient
-        surr_obj = - tf.reduce_mean(loglik * advantage_var)
+        surr_obj = - tf.reduce_mean(dist.log_likelihood_sym(action_var, dist_info_vars) * advantage_var)
         mean_kl = tf.reduce_mean(kl)
         max_kl = tf.reduce_max(kl)
 
