@@ -7,13 +7,9 @@ from sandbox.rocky.tf.optimizers.conjugate_gradient_optimizer import PerlmutterH
 from rllab.optimizers.minibatch_dataset import BatchDataset
 from rllab.misc.ext import sliced_fun
 import tensorflow as tf
-import time
-from functools import partial
 import pyprind
 from numpy import linalg as LA
 import numpy as np
-from scipy.stats import norm
-from copy import deepcopy
 
 class SVRGOptimizer(Serializable):
     """
@@ -144,27 +140,18 @@ class SVRGOptimizer(Serializable):
         )
 
         inputs = tuple(inputs)
-        if extra_inputs is None:
-            extra_inputs = tuple()
-        else:
-            extra_inputs = tuple(extra_inputs)
+        extra_inputs = tuple() if extra_inputs is None else tuple(extra_inputs)
         self._hvp_approach.update_opt(f=constraint_term, target=target, inputs=inputs + extra_inputs,
                                       reg_coeff=self._reg_coeff)
 
     def loss(self, inputs, extra_inputs=None):
         inputs = tuple(inputs)
-        if extra_inputs is None:
-            extra_inputs = tuple()
-        else:
-            extra_inputs = tuple(extra_inputs)
+        extra_inputs = tuple() if extra_inputs is None else tuple(extra_inputs)
         return self._opt_fun["f_loss"](*(inputs + extra_inputs))
 
     def loss_tilde(self, inputs, extra_inputs=None):
         inputs = tuple(inputs)
-        if extra_inputs is None:
-            extra_inputs = tuple()
-        else:
-            extra_inputs = tuple(extra_inputs)
+        extra_inputs = tuple() if extra_inputs is None else tuple(extra_inputs)
         return self._opt_fun["f_loss_tilde"](*(inputs + extra_inputs))
 
     def optimize(self, inputs, extra_inputs=None,
@@ -178,10 +165,7 @@ class SVRGOptimizer(Serializable):
         f_grad_tilde = self._opt_fun["f_grad_tilde"]
 
         inputs = tuple(inputs)
-        if extra_inputs is None:
-            extra_inputs = tuple()
-        else:
-            extra_inputs = tuple(extra_inputs)
+        extra_inputs = tuple() if extra_inputs is None else tuple(extra_inputs)
 
         param = np.copy(self._target.get_param_values(trainable=True))
         logger.log("Start SVRG CG subsample optimization: #parameters: %d, #inputs: %d, #subsample_inputs: %d" % (
@@ -235,9 +219,8 @@ class SVRGOptimizer(Serializable):
             logger.record_tabular('w_dist', LA.norm(
                 cur_w - w_tilde) / LA.norm(cur_w))
 
-            if self._verbose:
-                if progbar.active:
-                    progbar.stop()
+            if self._verbose and progbar.active:
+                progbar.stop()
 
             if abs(LA.norm(cur_w - w_tilde) /
                    LA.norm(cur_w)) < self._tolerance:
@@ -249,8 +232,6 @@ class SVRGOptimizer(Serializable):
         init_step = np.sqrt(
             2.0 * self._max_constraint_val * (1. / (descent_direction.dot(Hx(descent_direction)) + 1e-8)))
         # s' H s = g' s, as s = H^-1 g
-        # init_step = np.sqrt(2.0 * self._max_constraint_val *
-        #(1. / (descent_direction.dot(deltaW)) + 1e-8))
         if np.isnan(init_step):
             init_step = 1.
         descent_step = init_step * descent_direction
